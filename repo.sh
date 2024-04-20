@@ -8,7 +8,6 @@ echo "Let us sign the packages without a .sig"
 echo "#############################################################################################"
 
 count=0
-cd x86_64
 for name in $(ls *.tar.zst); do
 	count=$[count+1]
 	if [ ! -f $name.sig ];then	
