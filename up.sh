@@ -54,6 +54,23 @@ read input
 
 git commit -m "$input"
 
+MAX_SIZE_MB=95
+FOLDER="x86_64"
+
+for file in "$FOLDER"/*.pkg.tar.zst; do
+    # Skip if no matching files
+    [[ -e "$file" ]] || continue
+
+    FILE_SIZE_MB=$(du -m "$file" | cut -f1)
+
+    if (( FILE_SIZE_MB > MAX_SIZE_MB )); then
+        echo "Warning: '$(basename "$file")' is ${FILE_SIZE_MB}MB, which exceeds ${MAX_SIZE_MB}MB."
+        exit 1
+    fi
+done
+
+echo "All package files are within the 95MB limit."
+
 # Push the local files to github
 
 if grep -q main .git/config; then
