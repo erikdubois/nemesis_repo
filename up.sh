@@ -26,6 +26,11 @@
 echo "Checking for newer files online first"
 git pull
 
+if [[ -f "./repo.sh" ]]; then
+    echo "Found repo.sh, running it..."
+    bash ./repo.sh
+fi
+
 # Below command will backup everything inside the project folder
 git add --all .
 
