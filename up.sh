@@ -3,14 +3,6 @@
 ##################################################################################################################
 # Author    : Erik Dubois
 # Website   : https://www.erikdubois.be
-# Website   : https://www.alci.online
-# Website   : https://www.ariser.eu
-# Website   : https://www.arcolinux.info
-# Website   : https://www.arcolinux.com
-# Website   : https://www.arcolinuxd.com
-# Website   : https://www.arcolinuxb.com
-# Website   : https://www.arcolinuxiso.com
-# Website   : https://www.arcolinuxforum.com
 ##################################################################################################################
 #
 #   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
@@ -28,34 +20,11 @@
 ##################################################################################################################
 
 # reset - commit your changes or stash them before you merge
-# git reset --hard - ArcoLinux alias - grh
+# git reset --hard - personal alias - grh
 
-# reset - go back one commit - all is lost
-# git reset --hard HEAD~1
-
-# remove a file online but keep it locally
-# https://www.baeldung.com/ops/git-remove-file-without-deleting-it
-# git rm --cached file.txt
-
-MAX_SIZE_MB=95
-FOLDER="x86_64"
-
-for file in "$FOLDER"/*.pkg.tar.zst; do
-    # Skip if no matching files
-    [[ -e "$file" ]] || continue
-
-    FILE_SIZE_MB=$(du -m "$file" | cut -f1)
-
-    if (( FILE_SIZE_MB > MAX_SIZE_MB )); then
-        echo "Warning: '$(basename "$file")' is ${FILE_SIZE_MB}MB, which exceeds ${MAX_SIZE_MB}MB."
-        exit 1
-    fi
-done
-
-echo "All package files are within the 95MB limit."
-
-# Creating the databases
-sh repo.sh
+# checking if I have the latest files from github
+echo "Checking for newer files online first"
+git pull
 
 # Below command will backup everything inside the project folder
 git add --all .
@@ -65,11 +34,11 @@ echo "####################################"
 echo "Write your commit comment!"
 echo "####################################"
 
-#read input
+read input
 
 # Committing to the local repository with a message containing the time details and commit text
 
-git commit -m "update"
+git commit -m "$input"
 
 # Push the local files to github
 
@@ -82,9 +51,6 @@ if grep -q master .git/config; then
 	echo "Using master"
 		git push -u origin master
 fi
-
-# force the matter
-# git push -u origin master --force
 
 echo "################################################################"
 echo "###################    Git Push Done      ######################"

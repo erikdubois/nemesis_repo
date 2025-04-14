@@ -32,13 +32,18 @@ git config --global pull.rebase false
 git config --global user.name "Erik Dubois"
 git config --global user.email "erik.dubois@gmail.com"
 sudo git config --system core.editor nano
+#git config --global credential.helper cache
+#git config --global credential.helper 'cache --timeout=32000'
 git config --global push.default simple
-git config --global init.defaultBranch main
 
 git remote set-url origin git@github.com-edu:erikdubois/$project
 
 echo "Everything set"
 
-echo "################################################################"
-echo "###################    T H E   E N D      ######################"
-echo "################################################################"
+echo
+tput setaf 6
+echo "######################################################"
+echo "###################  $(basename $0) done"
+echo "######################################################"
+tput sgr0
+echo
