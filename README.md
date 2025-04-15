@@ -11,7 +11,10 @@ SigLevel = Never
 Server = https://erikdubois.github.io/$repo/$arch
 ```
 
-[![Watch the video](https://img.youtube.com/vi/guHmlOP0MQo/0.jpg)](https://youtu.be/guHmlOP0MQo)
+## Watch this video
+
+[![Watch the video](https://img.youtube.com/vi/guHmlOP0MQo/maxresdefault.jpg)](https://youtu.be/guHmlOP0MQo)
+
 
 
 
