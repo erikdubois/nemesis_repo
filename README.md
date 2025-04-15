@@ -7,7 +7,7 @@ add this to your /etc/pacman.conf with npacman or the ATT.
 
 ```
 [nemesis_repo]
-SigLevel = PackageRequired DatabaseNever
+SigLevel = Never
 Server = https://erikdubois.github.io/$repo/$arch
 ```
 
