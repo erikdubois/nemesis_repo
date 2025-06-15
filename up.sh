@@ -22,13 +22,12 @@
 # reset - commit your changes or stash them before you merge
 # git reset --hard - personal alias - grh
 
+./chaotic
+
 if [[ -f "./repo.sh" ]]; then
     echo "Found repo.sh, running it..."
     bash ./repo.sh
 fi
-
-
-./chaotic
 
 # Below command will backup everything inside the project folder
 git add --all .
