@@ -27,6 +27,9 @@ if [[ -f "./repo.sh" ]]; then
     bash ./repo.sh
 fi
 
+
+./chaotic
+
 # Below command will backup everything inside the project folder
 git add --all .
 
