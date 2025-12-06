@@ -2,7 +2,7 @@
 
 # Configuration
 URL="https://chaoticmirror.com/chaotic-aur/chaotic-aur/x86_64/"
-DEST="/home/erik/DATA/EDU/nemesis_repo/x86_64"
+DEST="/home/erik/DATA/EDU/nemesis_repo/x86_64/"
 PACKAGES=("chaotic-keyring" "chaotic-mirrorlist")
 
 # Function to extract version string (excluding .pkg.tar.zst)
