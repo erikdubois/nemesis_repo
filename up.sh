@@ -135,6 +135,9 @@ git_commit_and_push() {
 # Main
 #####################################################################
 main() {
+    ensure_git_remote_configured
+    git_pull
+
     if [[ -f "${SCRIPT_DIR}/repo.sh" ]]; then
         log_section "Running repo.sh"
         bash "${SCRIPT_DIR}/repo.sh"
@@ -146,8 +149,6 @@ main() {
     fi
 
     clean_pycache
-    ensure_git_remote_configured
-    git_pull
     git_commit_and_push
 
     log_success "$(basename "$0") done"
