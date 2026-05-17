@@ -1,6 +1,8 @@
 #!/bin/bash
 
-cd x86_64
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
+cd "${SCRIPT_DIR}/x86_64"
 rm nemesis_repo*
 
 echo "repo-add"
