@@ -140,6 +140,11 @@ main() {
         bash "${SCRIPT_DIR}/repo.sh"
     fi
 
+    if [[ -f "${SCRIPT_DIR}/chaotic.sh" ]]; then
+        log_section "Running chaotic.sh"
+        bash "${SCRIPT_DIR}/chaotic.sh"
+    fi
+
     clean_pycache
     ensure_git_remote_configured
     git_pull
