@@ -90,17 +90,27 @@ configure_git() {
     project="$(basename "${SCRIPT_DIR}")"
 
     log_section "Configuring git for project: ${project}"
-    log_info "https://github.com/erikdubois/${project}"
 
     git config --global pull.rebase false
-    git config --global user.name "Erik Dubois"
-    git config --global user.email "erik.dubois@gmail.com"
     sudo git config --system core.editor nano
     git config --global push.default simple
 
-    git -C "${SCRIPT_DIR}" remote set-url origin "git@github.com-edu:erikdubois/${project}"
-
-    log_success "Git configured — remote set to git@github.com-edu:erikdubois/${project}"
+    if [[ "${SCRIPT_DIR}" == */EDU*/* ]]; then
+        log_info "https://github.com/erikdubois/${project}"
+        git -C "${SCRIPT_DIR}" config --local user.name "Erik Dubois"
+        git -C "${SCRIPT_DIR}" config --local user.email "erik.dubois@gmail.com"
+        git -C "${SCRIPT_DIR}" remote set-url origin "git@github.com:erikdubois/${project}"
+        log_success "Git configured — remote set to git@github.com:erikdubois/${project}"
+    elif [[ "${SCRIPT_DIR}" == *"/KIRO"* ]]; then
+        log_info "https://github.com/kirodubes/${project}"
+        git -C "${SCRIPT_DIR}" config --local user.name "Kiro Dubes"
+        git -C "${SCRIPT_DIR}" config --local user.email "kirodubes@gmail.com"
+        git -C "${SCRIPT_DIR}" remote set-url origin "git@github.com-kiro:kirodubes/${project}"
+        log_success "Git configured — remote set to git@github.com-kiro:kirodubes/${project}"
+    else
+        log_error "Cannot determine identity — path contains neither EDU nor KIRO: ${SCRIPT_DIR}"
+        exit 1
+    fi
 }
 
 ############################################################
