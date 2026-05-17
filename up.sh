@@ -137,18 +137,18 @@ git_commit_and_push() {
 main() {
     ensure_git_remote_configured
     git_pull
-
-    if [[ -f "${SCRIPT_DIR}/repo.sh" ]]; then
-        log_section "Running repo.sh"
-        bash "${SCRIPT_DIR}/repo.sh"
-    fi
+    clean_pycache
 
     if [[ -f "${SCRIPT_DIR}/chaotic.sh" ]]; then
         log_section "Running chaotic.sh"
         bash "${SCRIPT_DIR}/chaotic.sh"
     fi
 
-    clean_pycache
+    if [[ -f "${SCRIPT_DIR}/repo.sh" ]]; then
+        log_section "Running repo.sh"
+        bash "${SCRIPT_DIR}/repo.sh"
+    fi
+
     git_commit_and_push
 
     log_success "$(basename "$0") done"
