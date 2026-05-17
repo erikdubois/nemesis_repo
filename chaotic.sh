@@ -27,7 +27,7 @@ for pkg in "${PACKAGES[@]}"; do
 
     if [[ "$remote_version" != "$local_version" ]]; then
         echo "Updating $pkg: $local_version → $remote_version"
-        curl -O "$URL/$remote_file"
+        curl -o "${DEST}${remote_file}" "$URL/$remote_file"
     else
         echo "$pkg is up to date: $local_version"
     fi
