@@ -135,6 +135,11 @@ git_commit_and_push() {
 # Main
 #####################################################################
 main() {
+    if [[ -f "${SCRIPT_DIR}/repo.sh" ]]; then
+        log_section "Running repo.sh"
+        bash "${SCRIPT_DIR}/repo.sh"
+    fi
+
     clean_pycache
     ensure_git_remote_configured
     git_pull
