@@ -6,13 +6,18 @@
 - Rewrote `README.md` to state the repo's identity: a pacman repo of extras you add **after** a clean install (Spotify and friends), not part of the base system.
 - Added a plain-language note distinguishing nemesis_repo from `kiro_repo` (the install-time Calamares repo that disappears after reboot), so the sibling repos no longer read as interchangeable.
 - Updated the walkthrough video to https://youtu.be/ocKZIzAb7GQ (was `guHmlOP0MQo`).
+- Added a screenshots gallery to the README (six `.webp` desktop/tool shots in a table) and the same gallery to the Pages site (`index.html`) as a new `#gallery` section that the existing nav link already pointed at, with a `.shot-grid` / `.shot` block in `css/style.css` reusing the slate/accent tokens.
+- Fixed the footer website link in `index.html` from `erikdubois.be` to `https://kiroproject.be`.
 
 ### Technical Details
 - Kept all working content (pacman.conf snippet, `bit.ly/nemesis-repo` curl one-liner, websites, social links); grouped the two install methods under a new "Add the repository" heading.
 - Deliberately avoided HQ-internal terms and EDU/KIRO tree paths since this is a public-facing README.
+- Gallery markup/CSS mirror the kiro_repo site so the two sibling Pages stay consistent.
 
 ### Files Modified
-- README.md (rewritten)
+- README.md (rewritten + screenshots gallery)
+- index.html (gallery section + footer link → kiroproject.be)
+- css/style.css (.shot-grid / .shot gallery styles)
 - CHANGELOG.md (updated)
 
 ## 2026.05.23

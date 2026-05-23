@@ -361,6 +361,32 @@ code.chip {
   color: rgb(var(--accent-400));
 }
 
+/* ── Gallery ─────────────────────────────────────────────────────── */
+.shot-grid {
+  margin-top: 3rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) { .shot-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 960px) { .shot-grid { grid-template-columns: repeat(3, 1fr); } }
+.shot {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  background: rgb(15 23 42 / 0.4);
+  transition: border-color 0.15s ease;
+}
+.shot:hover { border-color: rgb(var(--accent-500) / 0.4); }
+.shot img { display: block; width: 100%; height: auto; }
+.shot figcaption {
+  padding: 0.625rem 0.875rem;
+  font-size: 0.8125rem;
+  color: var(--text-3);
+  border-top: 1px solid var(--border);
+}
+
 /* ── Video ───────────────────────────────────────────────────────── */
 .video-frame {
   margin-top: 2rem;
