@@ -1,5 +1,20 @@
 # Changelog
 
+## 2026.05.24
+
+### What Changed
+- Rewrote `README.md` to state the repo's identity: a pacman repo of extras you add **after** a clean install (Spotify and friends), not part of the base system.
+- Added a plain-language note distinguishing nemesis_repo from `kiro_repo` (the install-time Calamares repo that disappears after reboot), so the sibling repos no longer read as interchangeable.
+- Updated the walkthrough video to https://youtu.be/ocKZIzAb7GQ (was `guHmlOP0MQo`).
+
+### Technical Details
+- Kept all working content (pacman.conf snippet, `bit.ly/nemesis-repo` curl one-liner, websites, social links); grouped the two install methods under a new "Add the repository" heading.
+- Deliberately avoided HQ-internal terms and EDU/KIRO tree paths since this is a public-facing README.
+
+### Files Modified
+- README.md (rewritten)
+- CHANGELOG.md (updated)
+
 ## 2026.05.23
 
 ### What Changed
