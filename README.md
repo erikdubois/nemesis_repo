@@ -40,7 +40,7 @@ Learn, have fun and enjoy.
   </tr>
   <tr>
     <td align="center">
-      <img src="assets/screenshots/archlinux-betterlockscreen.png" alt="Betterlockscreen" width="400" /><br />
+      <img src="assets/screenshots/archlinux-betterlockscreen.webp" alt="Betterlockscreen" width="400" /><br />
       <sub>Betterlockscreen</sub>
     </td>
     <td align="center">
