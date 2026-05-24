@@ -156,6 +156,7 @@ code.chip {
   padding: 0.25rem 0.625rem;
   font-size: 0.75rem;
   font-weight: 500;
+  white-space: nowrap;
   transition: all 0.15s ease;
 }
 .pill svg { height: 0.875rem; width: 0.875rem; }
