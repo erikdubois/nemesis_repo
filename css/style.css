@@ -143,6 +143,7 @@ code.chip {
 .header-right { display: flex; align-items: center; gap: 1.5rem; }
 
 .nav { display: none; gap: 1.5rem; font-size: 0.875rem; color: var(--text-2); }
+.nav a { white-space: nowrap; }
 .nav a:hover { color: #fff; }
 
 /* Donation quick-links */
