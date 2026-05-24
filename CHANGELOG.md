@@ -2,6 +2,17 @@
 
 ## 2026.05.24
 
+### Shared-asset propagation + Patreon + wrap fixes (later session)
+- Synced the canonical web assets via the new HQ `propagate-assets.sh`: added
+  `assets/branding/youtube-banner.png` (the repo already used
+  `assets/screenshots/`).
+- Added a **Patreon** support pill (https://www.patreon.com/c/kiroproject) with
+  coral `.pill-patreon` styling to `index.html`.
+- Added `white-space:nowrap` to `.pill` (Ko-fi label) and `.nav a` ("Add the
+  repo") so labels and nav items no longer wrap to two lines.
+- Left the `Server = https://erikdubois.github.io/$repo/$arch` line untouched —
+  it's correct pacman config (the 404 is browser-only on the bare directory).
+
 ### What Changed
 - Rewrote `README.md` to state the repo's identity: a pacman repo of extras you add **after** a clean install (Spotify and friends), not part of the base system.
 - Added a plain-language note distinguishing nemesis_repo from `kiro_repo` (the install-time Calamares repo that disappears after reboot), so the sibling repos no longer read as interchangeable.
