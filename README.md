@@ -66,7 +66,7 @@ Or download and run the script:
 curl -sL bit.ly/nemesis-repo | sudo bash
 ```
 
-## Watch this video
+## Watch this video to add the nemesis-repo
 
 [![Watch the video](https://img.youtube.com/vi/ocKZIzAb7GQ/maxresdefault.jpg)](https://youtu.be/ocKZIzAb7GQ)
 
