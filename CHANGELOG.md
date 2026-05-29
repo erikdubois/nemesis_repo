@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026.05.29
+
+### Adopted the canonical shared web design system
+- `css/style.css` is now synced byte-identical from the canonical
+  `Kiro-HQ/web-shared/style.css` via the new HQ `propagate-web-shared.sh` — no
+  longer hand-edited here (header now points to the canonical source).
+- Wrapped the footer in `<!-- KIRO:FOOTER START -->` / `<!-- KIRO:FOOTER END -->`
+  markers so the sync script can manage it, and **de-duplicated** it: removed the
+  second "Part of the Kiro project" link that pointed to the same
+  `https://kiroproject.be` URL as the existing `kiroproject.be` link.
+- Files: `index.html`, `css/style.css`.
+
 ## 2026.05.24
 
 ### Shared-asset propagation + Patreon + wrap fixes (later session)

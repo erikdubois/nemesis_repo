@@ -1,5 +1,9 @@
 /*
- * nemesis_repo landing page — self-contained design system.
+ * Kiro repo Pages — shared, self-contained design system.
+ *
+ * CANONICAL SOURCE: Kiro-HQ/web-shared/style.css. Do not edit the copies
+ * in kiro_repo/ or nemesis_repo/ directly — edit here and run
+ * Kiro-HQ/propagate-web-shared.sh to push the change to both repo sites.
  *
  * Reproduces the kiro-website look (slate-950 surface, sky accent,
  * visitor-switchable palette) without a Tailwind build step, so the
@@ -365,7 +369,7 @@ code.chip {
   color: rgb(var(--accent-400));
 }
 
-/* ── Gallery ─────────────────────────────────────────────────────── */
+/* ── Screenshots / Gallery grid ──────────────────────────────────── */
 .shot-grid {
   margin-top: 3rem;
   display: grid;
