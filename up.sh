@@ -148,10 +148,10 @@ main() {
         bash "${SCRIPT_DIR}/chaotic.sh"
     fi
 
-    if [[ -f "${SCRIPT_DIR}/cachyos.sh" ]]; then
-        log_section "Running cachyos.sh"
-        bash "${SCRIPT_DIR}/cachyos.sh"
-    fi
+    # if [[ -f "${SCRIPT_DIR}/cachyos.sh" ]]; then
+    #     log_section "Running cachyos.sh"
+    #     bash "${SCRIPT_DIR}/cachyos.sh"
+    # fi
 
     if [[ -f "${SCRIPT_DIR}/repo.sh" ]]; then
         log_section "Running repo.sh"
