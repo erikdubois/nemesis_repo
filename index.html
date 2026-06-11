@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>nemesis_repo &mdash; Erik Dubois' Arch package repository</title>
+    <meta name="description" content="nemesis_repo is Erik Dubois' pre-built Arch Linux package repository — the ArchLinux Tweak Tool, desktop configs, Arc themes and Sardi icons. Add it to pacman.conf on any Arch system." />
+    <meta name="theme-color" content="#0f172a" />
+
+    <!-- Favicons (shared Kiro branding) -->
+    <link rel="icon" href="assets/branding/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/branding/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/branding/favicon-192.png" />
+    <link rel="apple-touch-icon" href="assets/branding/apple-touch-icon.png" />
+
+    <!-- Open Graph / Twitter Card -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://erikdubois.github.io/nemesis_repo/" />
+    <meta property="og:title" content="nemesis_repo — Erik Dubois' Arch package repository" />
+    <meta property="og:description" content="Pre-built Arch packages: the ArchLinux Tweak Tool, desktop configs, Arc themes and Sardi icons. Add it to pacman.conf on any Arch system." />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="nemesis_repo — Erik Dubois' Arch package repository" />
+    <meta name="twitter:description" content="Pre-built Arch packages for any Arch system, by Erik Dubois." />
+
+    <!-- ============================================================
+         Accent palette — visitor-switchable (mirrors kiro-website).
+         Default is DEFAULT_ACCENT below; visitors override it via the
+         swatch row in the header and the choice persists in localStorage.
+         The CSS tokens (--accent-200..500) live in css/style.css.
+         ============================================================ -->
+    <script>
+      const DEFAULT_ACCENT = 'sky';
+
+      // RGB triplets (space-separated) — required by rgb(... / <alpha>) usage.
+      const PALETTES = {
+        sky:     { 200: '186 230 253', 300: '125 211 252', 400: '56 189 248',  500: '14 165 233' },
+        gold:    { 200: '253 230 138', 300: '252 211 77',  400: '251 191 36',  500: '245 158 11' },
+        emerald: { 200: '167 243 208', 300: '110 231 183', 400: '52 211 153',  500: '16 185 129' },
+        violet:  { 200: '221 214 254', 300: '196 181 253', 400: '167 139 250', 500: '139 92 246' },
+        rose:    { 200: '254 205 211', 300: '253 164 175', 400: '251 113 133', 500: '244 63 94'  },
+      };
+
+      function applyAccent(name) {
+        const p = PALETTES[name];
+        if (!p) return;
+        for (const [k, v] of Object.entries(p)) {
+          document.documentElement.style.setProperty(`--accent-${k}`, v);
+        }
+        try { localStorage.setItem('nemesis-accent', name); } catch (e) { /* private mode */ }
+        document.querySelectorAll('[data-accent]').forEach(btn => {
+          btn.setAttribute('aria-pressed', btn.dataset.accent === name ? 'true' : 'false');
+        });
+      }
+
+      // Boot before paint so colors don't flash: localStorage > default.
+      const saved = (() => { try { return localStorage.getItem('nemesis-accent'); } catch (e) { return null; } })();
+      applyAccent(saved && PALETTES[saved] ? saved : DEFAULT_ACCENT);
+
+      // Click delegation — accent swatches and copy buttons in one pass.
+      document.addEventListener('click', async e => {
+        const accentBtn = e.target.closest('[data-accent]');
+        if (accentBtn) { applyAccent(accentBtn.dataset.accent); return; }
+
+        const copyBtn = e.target.closest('[data-copy]');
+        if (copyBtn) {
+          try {
+            await navigator.clipboard.writeText(copyBtn.dataset.copy);
+            const original = copyBtn.textContent;
+            copyBtn.textContent = 'Copied!';
+            setTimeout(() => { copyBtn.textContent = original; }, 1500);
+          } catch (err) {
+            console.error('Clipboard write failed:', err);
+          }
+        }
+      });
+    </script>
+
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- ── Header ───────────────────────────────────────────────── -->
+    <header class="site-header">
+      <div class="container header-bar">
+        <a href="/nemesis_repo/" class="brand" aria-label="nemesis_repo home">
+          <img src="assets/branding/logo.png" alt="" width="28" height="28" />
+          <span>nemesis_repo</span>
+        </a>
+        <div class="header-right">
+          <nav class="nav" aria-label="Primary">
+            <a href="#add">Add the repo</a>
+            <a href="#packages">Packages</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#video">Video</a>
+          </nav>
+
+          <div class="support" aria-label="Support Erik Dubois">
+            <a href="https://github.com/sponsors/erikdubois" target="_blank" rel="noopener noreferrer"
+               class="pill pill-sponsor" aria-label="Sponsor on GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              <span class="label">Sponsor</span>
+            </a>
+            <a href="https://ko-fi.com/erikdubois" target="_blank" rel="noopener noreferrer"
+               class="pill pill-kofi" aria-label="Support on Ko-fi">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h11v8a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V8z"/><path d="M16 11h2a3 3 0 0 1 0 6h-2"/><path d="M8 4v2"/><path d="M11 3v3"/><path d="M14 4v2"/></svg>
+              <span class="label">Ko-fi</span>
+            </a>
+            <a href="https://www.paypal.me/erikdubois" target="_blank" rel="noopener noreferrer"
+               class="pill pill-paypal" aria-label="Support via PayPal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M2.5 10h19"/><path d="M6 15h3"/></svg>
+              <span class="label">PayPal</span>
+            </a>
+            <a href="https://www.patreon.com/c/kiroproject" target="_blank" rel="noopener noreferrer"
+               class="pill pill-patreon" aria-label="Support on Patreon">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.82 2.41c3.96 0 7.18 3.24 7.18 7.21 0 3.96-3.22 7.18-7.18 7.18-3.97 0-7.21-3.22-7.21-7.18 0-3.97 3.24-7.21 7.21-7.21M2 21.6h3.51V2.41H2V21.6"/></svg>
+              <span class="label">Patreon</span>
+            </a>
+          </div>
+
+          <div class="swatches" role="group" aria-label="Accent color">
+            <button type="button" data-accent="sky"     aria-label="Sky accent"     class="swatch" style="background-color:#38bdf8"></button>
+            <button type="button" data-accent="gold"    aria-label="Gold accent"    class="swatch" style="background-color:#fbbf24"></button>
+            <button type="button" data-accent="emerald" aria-label="Emerald accent" class="swatch" style="background-color:#34d399"></button>
+            <button type="button" data-accent="violet"  aria-label="Violet accent"  class="swatch" style="background-color:#a78bfa"></button>
+            <button type="button" data-accent="rose"    aria-label="Rose accent"    class="swatch" style="background-color:#fb7185"></button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <!-- ── Hero ───────────────────────────────────────────────── -->
+      <section class="hero">
+        <div class="hero-glow"></div>
+        <div class="container hero-inner">
+          <a href="#packages" class="badge">
+            <span class="dot"><span class="ping"></span><span class="core"></span></span>
+            146 packages &middot; x86_64 &amp; any
+          </a>
+          <h1>The <span class="accent">nemesis_repo</span><br />for Arch &amp; Kiro.</h1>
+          <p class="lead">
+            Erik Dubois' pre-built Arch Linux package repository &mdash; the ArchLinux Tweak Tool,
+            window-manager configs, Arc themes and Sardi icons. You don't have to run Kiro to use it:
+            add it to <code class="chip">/etc/pacman.conf</code> on any Arch install and you're done.
+          </p>
+          <div class="cta-row">
+            <a href="#add" class="btn btn-primary">
+              Add to pacman.conf
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 3a1 1 0 0 1 1 1v8.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-5 5a1 1 0 0 1-1.414 0l-5-5a1 1 0 1 1 1.414-1.414L9 12.586V4a1 1 0 0 1 1-1z" clip-rule="evenodd"/></svg>
+            </a>
+            <a href="https://github.com/erikdubois/nemesis_repo" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Browse all packages</a>
+          </div>
+          <p class="hero-foot">Unsigned by design &middot; <code class="chip">SigLevel = Never</code> &middot; hosted on GitHub Pages</p>
+        </div>
+      </section>
+
+      <!-- ── Add the repo ───────────────────────────────────────── -->
+      <section id="add" class="section">
+        <div class="container section-inner">
+          <p class="eyebrow">Add the repo</p>
+          <h2>Use it on any Arch system</h2>
+          <p class="lead">
+            Add <code class="chip">nemesis_repo</code> to <code class="chip">/etc/pacman.conf</code> and refresh.
+            The package list lives on
+            <a href="https://github.com/erikdubois/nemesis_repo" target="_blank" rel="noopener noreferrer"><code class="chip">github.com/erikdubois/nemesis_repo</code></a>.
+          </p>
+
+          <!-- Step 1 -->
+          <div class="step">
+            <div class="step-head">
+              <h3>1. Append to <code>/etc/pacman.conf</code></h3>
+              <button type="button" class="copy-btn"
+                      data-copy="[nemesis_repo]&#10;SigLevel = Never&#10;Server = https://erikdubois.github.io/$repo/$arch">Copy</button>
+            </div>
+            <pre class="code-block"><code><span class="c-comment"># /etc/pacman.conf — append at the bottom</span>
+<span class="c-section">[nemesis_repo]</span>
+<span class="c-key">SigLevel</span> <span class="c-op">=</span> <span class="c-val">Never</span>
+<span class="c-key">Server</span>   <span class="c-op">=</span> <span class="c-val">https://erikdubois.github.io/$repo/$arch</span></code></pre>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step">
+            <div class="step-head">
+              <h3>2. Refresh pacman</h3>
+              <button type="button" class="copy-btn" data-copy="sudo pacman -Syyu">Copy</button>
+            </div>
+            <pre class="code-block compact"><code><span class="c-prompt">$ </span><span class="c-val">sudo pacman -Syyu</span></code></pre>
+          </div>
+
+          <!-- One-liner alternative -->
+          <div class="step">
+            <div class="step-head">
+              <h3>Or do both in one line</h3>
+              <button type="button" class="copy-btn" data-copy="curl -sL bit.ly/nemesis-repo | sudo bash">Copy</button>
+            </div>
+            <pre class="code-block compact"><code><span class="c-prompt">$ </span><span class="c-val">curl -sL bit.ly/nemesis-repo | sudo bash</span></code></pre>
+          </div>
+
+          <div class="note">
+            <b>Note on signing:</b>
+            This repo is unsigned (<code>SigLevel = Never</code>) by design. You're trusting the
+            GitHub pipeline that builds these packages. If that trade-off doesn't suit you, don't add it.
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Packages ───────────────────────────────────────────── -->
+      <section id="packages" class="section">
+        <div class="container section-inner">
+          <p class="eyebrow">Packages</p>
+          <h2>What's inside</h2>
+          <p class="lead">
+            146 pre-built packages, refreshed regularly. The headliners are the tweak tools and the
+            desktop work; the bulk is themes and icon sets you can mix and match.
+          </p>
+
+          <div class="pkg-grid">
+            <div class="pkg-card">
+              <h3>Tweak &amp; system tools</h3>
+              <p>archlinux-tweak-tool-gtk4, alacritty-tweak-tool, archlinux-logout-gtk4, edu-system-files — the GTK4 control centre and friends.</p>
+            </div>
+            <div class="pkg-card">
+              <h3>Desktops &amp; window managers</h3>
+              <p>ohmychadwm, edu-chadwm, edu-qtile, edu-i3, edu-bspwm, edu-awesome, edu-leftwm, edu-polybar, edu-rofi, edu-xfce.</p>
+            </div>
+            <div class="pkg-card">
+              <span class="count">57 variants</span>
+              <h3>Arc GTK themes</h3>
+              <p>arcolinux-arc-* — the full colour-accented Arc theme family, from aqua to crimson to cornflower-blue.</p>
+            </div>
+            <div class="pkg-card">
+              <h3>Sardi &amp; Neo-Candy icons</h3>
+              <p>sardi-* flexible/ghost/flat variants, neo-candy-icons, papirus-dark-tela — coordinated icon sets.</p>
+            </div>
+            <div class="pkg-card">
+              <h3>Utilities</h3>
+              <p>flameshot-git, blueberry, pamac-aur, libpamac-aur, ckb-next, hardcode-fixer — handpicked everyday extras.</p>
+            </div>
+            <div class="pkg-card">
+              <h3>Chaotic mirror bits</h3>
+              <p>chaotic-keyring, chaotic-mirrorlist, pacman-hook-kernel-install — the plumbing that keeps things current.</p>
+            </div>
+          </div>
+
+          <div class="cta-row" style="margin-top:2.5rem; justify-content:flex-start;">
+            <a href="https://github.com/erikdubois/nemesis_repo" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Browse the full file list &rarr;</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Gallery ────────────────────────────────────────────── -->
+      <section id="gallery" class="section">
+        <div class="container section-inner">
+          <p class="eyebrow">Gallery</p>
+          <h2>What Kiro looks like</h2>
+          <p class="lead">A glance at the desktops and tools you can run with software from the nemesis repo.</p>
+          <div class="shot-grid">
+            <figure class="shot">
+              <img src="assets/screenshots/desktop-ohmychadwm.webp" alt="ohmychadwm desktop" loading="lazy" />
+              <figcaption>ohmychadwm desktop</figcaption>
+            </figure>
+            <figure class="shot">
+              <img src="assets/screenshots/desktop-xfce.webp" alt="XFCE desktop" loading="lazy" />
+              <figcaption>XFCE desktop</figcaption>
+            </figure>
+            <figure class="shot">
+              <img src="assets/screenshots/att.webp" alt="Arch Linux Tweak Tool" loading="lazy" />
+              <figcaption>Arch Linux Tweak Tool</figcaption>
+            </figure>
+            <figure class="shot">
+              <img src="assets/screenshots/alacritty-tweak-tool.webp" alt="Alacritty tweak tool" loading="lazy" />
+              <figcaption>Alacritty tweak tool</figcaption>
+            </figure>
+            <figure class="shot">
+              <img src="assets/screenshots/archlinux-betterlockscreen.webp" alt="Betterlockscreen" loading="lazy" />
+              <figcaption>Betterlockscreen</figcaption>
+            </figure>
+            <figure class="shot">
+              <img src="assets/screenshots/archlinux-logout.webp" alt="Logout screen" loading="lazy" />
+              <figcaption>Logout screen</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Video ──────────────────────────────────────────────── -->
+      <section id="video" class="section">
+        <div class="container section-inner">
+          <p class="eyebrow">Watch</p>
+          <h2>How the repo works</h2>
+          <p class="lead">A walkthrough of adding nemesis_repo and what it gives you.</p>
+          <div class="video-frame">
+            <iframe src="https://www.youtube-nocookie.com/embed/ocKZIzAb7GQ"
+                    title="nemesis_repo walkthrough on YouTube"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ── Footer ───────────────────────────────────────────────── -->
+    <!-- KIRO:FOOTER START — managed by Kiro-HQ/propagate-web-shared.sh; do not edit by hand -->
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <span>&copy; 2026 nemesis_repo &middot; Built by Erik Dubois</span>
+        <span class="footer-sep">&middot;</span>
+        <a href="https://kiroproject.be" target="_blank" rel="noopener noreferrer">kiroproject.be</a>
+        <span class="footer-sep">&middot;</span>
+        <a href="https://www.youtube.com/erikdubois" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <span class="footer-sep">&middot;</span>
+        <a href="https://github.com/kirodubes/kiro-discussions/discussions" target="_blank" rel="noopener noreferrer">Discussions</a>
+      </div>
+    </footer>
+    <!-- KIRO:FOOTER END -->
+  </body>
+</html>
