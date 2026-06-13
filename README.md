@@ -63,6 +63,23 @@ Server = https://erikdubois.github.io/$repo/$arch
 > inherits your global `SigLevel`. Adding it by hand before the keyring is present?
 > Use `SigLevel = Optional` for the repo until then.
 
+### Signing key
+
+Packages are signed with the **Kiro Signing Key**:
+
+```
+Kiro Signing Key <erik.dubois@gmail.com>
+Fingerprint: D965 8D54 6AD4 8015 CABC  612B 149A BD0C 3A05 63EE
+```
+
+Import it from a keyserver to verify signatures manually:
+
+```
+gpg --keyserver keyserver.ubuntu.com --recv-keys 149ABD0C3A0563EE
+# or
+gpg --keyserver keys.openpgp.org --recv-keys 149ABD0C3A0563EE
+```
+
 Or download and run the script:
 
 ```

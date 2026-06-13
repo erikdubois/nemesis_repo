@@ -9,6 +9,10 @@
   built them. SigLevel on the client stays `Never` for now (sigs present but
   ignored → no risk to existing installs); the `Optional → Required` flips come
   once `kiro-keyring` is deployed across the fleet.
+- Published the **Kiro Signing Key** (`149ABD0C3A0563EE`) to two public keyservers
+  — `keyserver.ubuntu.com` and `keys.openpgp.org` (email-verified UID) — so anyone
+  can fetch and verify it. Documented the fingerprint + keyserver import commands
+  in the README under a new **Signing key** section.
 
 ### Technical Details
 - Detach-sign loop before `repo-add`, scoped to the Kiro signing subkey
@@ -28,6 +32,7 @@
 
 ### Files Modified
 - `repo.sh`
+- `README.md`
 
 ## 2026.06.03
 
