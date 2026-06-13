@@ -1,5 +1,34 @@
 # Changelog
 
+## 2026.06.13
+
+### What Changed
+- `repo.sh` now **PGP-signs every package** before building the database — the
+  repo-build step of Phase A signing for `nemesis_repo`. Closes the gap where the
+  whole fleet pulled binaries from GitHub Pages with no cryptographic proof of who
+  built them. SigLevel on the client stays `Never` for now (sigs present but
+  ignored → no risk to existing installs); the `Optional → Required` flips come
+  once `kiro-keyring` is deployed across the fleet.
+
+### Technical Details
+- Detach-sign loop before `repo-add`, scoped to the Kiro signing subkey
+  (`gpg --detach-sign -u 33B761B0EE5AD4FD`); signs only when the `.sig` is missing
+  or older than the package, so re-runs don't re-sign the whole repo (avoids git
+  churn). Fail-loud: a signing error aborts the run rather than publish a
+  half-signed repo.
+- **Packages-only** signing — `repo-add` stays without `-s` (db unsigned), so the
+  client uses `SigLevel = Required DatabaseOptional` later and the
+  `.db.tar.gz → .db` rename is untouched.
+- Orphan-sig cleanup after `repo-add -R` prunes superseded packages, so no `.sig`
+  is served without its package.
+- First run: 246/246 packages signed, 0 missing, 0 orphans; db built clean. Key:
+  master `149ABD0C3A0563EE [C]` (offline) + signing subkey `33B761B0EE5AD4FD [S]`,
+  UID `Kiro Signing Key`. Not pushed from here — Erik's build flow runs `repo.sh`
+  + `up.sh` to publish.
+
+### Files Modified
+- `repo.sh`
+
 ## 2026.06.03
 
 ### Rolled back the broken plymouth-theme-kiro-logo package
