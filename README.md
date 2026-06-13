@@ -56,9 +56,12 @@ Add this to your `/etc/pacman.conf` with npacman or the ATT:
 
 ```
 [nemesis_repo]
-SigLevel = Never
 Server = https://erikdubois.github.io/$repo/$arch
 ```
+
+> `nemesis_repo` is PGP-signed by the Kiro key (trusted via `kiro-keyring`); it
+> inherits your global `SigLevel`. Adding it by hand before the keyring is present?
+> Use `SigLevel = Optional` for the repo until then.
 
 Or download and run the script:
 

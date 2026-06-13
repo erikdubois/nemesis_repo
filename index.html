@@ -152,7 +152,7 @@
             </a>
             <a href="https://github.com/erikdubois/nemesis_repo" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Browse all packages</a>
           </div>
-          <p class="hero-foot">Unsigned by design &middot; <code class="chip">SigLevel = Never</code> &middot; hosted on GitHub Pages</p>
+          <p class="hero-foot">PGP-signed &middot; <code class="chip">trusted via kiro-keyring</code> &middot; hosted on GitHub Pages</p>
         </div>
       </section>
 
@@ -172,11 +172,10 @@
             <div class="step-head">
               <h3>1. Append to <code>/etc/pacman.conf</code></h3>
               <button type="button" class="copy-btn"
-                      data-copy="[nemesis_repo]&#10;SigLevel = Never&#10;Server = https://erikdubois.github.io/$repo/$arch">Copy</button>
+                      data-copy="[nemesis_repo]&#10;Server = https://erikdubois.github.io/$repo/$arch">Copy</button>
             </div>
             <pre class="code-block"><code><span class="c-comment"># /etc/pacman.conf — append at the bottom</span>
 <span class="c-section">[nemesis_repo]</span>
-<span class="c-key">SigLevel</span> <span class="c-op">=</span> <span class="c-val">Never</span>
 <span class="c-key">Server</span>   <span class="c-op">=</span> <span class="c-val">https://erikdubois.github.io/$repo/$arch</span></code></pre>
           </div>
 
@@ -200,8 +199,10 @@
 
           <div class="note">
             <b>Note on signing:</b>
-            This repo is unsigned (<code>SigLevel = Never</code>) by design. You're trusting the
-            GitHub pipeline that builds these packages. If that trade-off doesn't suit you, don't add it.
+            Packages are PGP-signed by the Kiro key. On Kiro it's pre-trusted via
+            <code>kiro-keyring</code> and the repo inherits the global
+            <code>SigLevel = Required DatabaseOptional</code>. Adding it by hand elsewhere?
+            Install <code>kiro-keyring</code> first, or set <code>SigLevel = Optional</code> until it's in place.
           </div>
         </div>
       </section>
