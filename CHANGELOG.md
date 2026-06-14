@@ -9,6 +9,14 @@
   publish, `repo-add` mis-ranked it: the stale `26.06-14` file was processed last
   and overwrote the newer entry, deleting the epoch package from disk. Root cause
   was `pacsort` being called without `-f`.
+- **Corrected `index.html` against the live repo and auto-generated its counts.**
+  The landing page claimed "146 packages" (×2) and "57 variants" — the live db
+  actually holds 248 packages and 56 `arcolinux-arc-*` theme variants. Both
+  numbers are now derived from the freshly-built db in `repo.sh` and injected into
+  `index.html` on every publish, so they can never drift again. Also replaced the
+  install section's raw `Server = …` stanza with the canonical `kiro-keyring` +
+  `kiro-mirrorlist` / `Include = /etc/pacman.d/kiro-mirrorlist` flow, matching the
+  README and the shipped `/etc/pacman.conf`.
 
 ### Technical Details
 - `repo.sh` now feeds `repo-add` via `pacsort -f` (files mode) instead of bare
@@ -28,6 +36,8 @@
 ### Files Modified
 - `repo.sh`
 - `README.md`
+- `index.html`
+- `CHANGELOG.md`
 
 ## 2026.06.13
 

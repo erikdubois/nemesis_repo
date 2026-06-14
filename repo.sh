@@ -48,7 +48,7 @@ done
 # one directory ("name-ver/"); arc theme variants are the arcolinux-arc-* set.
 # Markers in index.html: <!--PKG-->N<!--/PKG--> and <!--ARC-->N<!--/ARC-->.
 pkg_count=$(tar tzf nemesis_repo.db | grep -c '/$' || true)
-arc_count=$(tar tzf nemesis_repo.db | grep -c '^arcolinux-arc-' || true)
+arc_count=$(tar tzf nemesis_repo.db | grep -c '^arcolinux-arc-.*/$' || true)
 echo "updating index.html counts: ${pkg_count} packages, ${arc_count} arc variants"
 sed -i -E \
     -e "s|<!--PKG-->[0-9]+<!--/PKG-->|<!--PKG-->${pkg_count}<!--/PKG-->|g" \
