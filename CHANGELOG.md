@@ -1,5 +1,27 @@
 # Changelog
 
+## 2026.06.14
+
+### What Changed
+- Fixed `repo.sh` so **epoch-versioned packages can't be clobbered by an older
+  build**. `kiro-keyring` gained `epoch=1` (to overtake a stray `20260613-1`
+  build installed across the fleet), producing `kiro-keyring-1:26.06-16`. On
+  publish, `repo-add` mis-ranked it: the stale `26.06-14` file was processed last
+  and overwrote the newer entry, deleting the epoch package from disk. Root cause
+  was `pacsort` being called without `-f`.
+
+### Technical Details
+- `repo.sh` now feeds `repo-add` via `pacsort -f` (files mode) instead of bare
+  `pacsort`. Without `-f`, pacsort sorts the raw lines and ranks `1:26.06-16`
+  *before* `26.06-14` (the `1:` lexically precedes `2`), so the older build was
+  processed last and won; `repo-add -R` then pruned the newer package file. With
+  `-f`, pacsort parses the full `name-epoch:ver-rel-arch.pkg.tar.zst` filename and
+  orders by true version, so the newest build is always processed last and wins.
+- Epoch is permanent on `kiro-keyring` from here on — never remove it.
+
+### Files Modified
+- `repo.sh`
+
 ## 2026.06.13
 
 ### What Changed
