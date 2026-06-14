@@ -52,16 +52,43 @@ Learn, have fun and enjoy.
 
 ## Add the repository
 
-Add this to your `/etc/pacman.conf` with npacman or the ATT:
+`nemesis_repo` is PGP-signed by the Kiro key (trusted via `kiro-keyring`) and
+inherits your global `SigLevel = Required`. The easiest way to add it is the
+helper script — it trusts the key, installs `kiro-keyring` + `kiro-mirrorlist`,
+and adds the repo (backing up your current `/etc/pacman.conf` first):
 
 ```
+curl -sL bit.ly/nemesis-repo | sudo bash
+```
+
+Once set up, your `/etc/pacman.conf` holds the repo via the mirrorlist shipped
+by `kiro-mirrorlist`:
+
+```
+[nemesis_repo]
+Include = /etc/pacman.d/kiro-mirrorlist
+```
+
+`npacman` and the Arch Linux Tweak Tool can add the repo for you too.
+
+Prefer to do it by hand? The mirrorlist file doesn't exist until
+`kiro-mirrorlist` is installed, so bootstrap with a direct `Server` line first,
+then trust the key and install the packages:
+
+```
+# add to /etc/pacman.conf
 [nemesis_repo]
 Server = https://erikdubois.github.io/$repo/$arch
 ```
 
-> `nemesis_repo` is PGP-signed by the Kiro key (trusted via `kiro-keyring`); it
-> inherits your global `SigLevel`. Adding it by hand before the keyring is present?
-> Use `SigLevel = Optional` for the repo until then.
+```
+sudo pacman -Sy
+sudo pacman-key --recv-keys 149ABD0C3A0563EE --keyserver keyserver.ubuntu.com
+sudo pacman-key --lsign-key 149ABD0C3A0563EE
+sudo pacman -Sy --needed kiro-keyring kiro-mirrorlist
+```
+
+You can then swap the `Server` line for `Include = /etc/pacman.d/kiro-mirrorlist`.
 
 ### Signing key
 
@@ -78,12 +105,6 @@ Import it from a keyserver to verify signatures manually:
 gpg --keyserver keyserver.ubuntu.com --recv-keys 149ABD0C3A0563EE
 # or
 gpg --keyserver keys.openpgp.org --recv-keys 149ABD0C3A0563EE
-```
-
-Or download and run the script:
-
-```
-curl -sL bit.ly/nemesis-repo | sudo bash
 ```
 
 ## Watch this video to add the nemesis-repo 

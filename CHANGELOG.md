@@ -18,9 +18,16 @@
   `-f`, pacsort parses the full `name-epoch:ver-rel-arch.pkg.tar.zst` filename and
   orders by true version, so the newest build is always processed last and wins.
 - Epoch is permanent on `kiro-keyring` from here on — never remove it.
+- `README.md`: reworked the "Add the repository" section to match the
+  arcolinux-nemesis website/README — helper one-liner as the lead path, canonical
+  `[nemesis_repo]` / `Include = /etc/pacman.d/kiro-mirrorlist` block (shipped by
+  `kiro-mirrorlist`), and a by-hand bootstrap (temporary `Server =` → trust key →
+  install `kiro-keyring` + `kiro-mirrorlist`). Dropped the duplicate helper
+  one-liner from the Signing key section and the old `SigLevel = Optional` advice.
 
 ### Files Modified
 - `repo.sh`
+- `README.md`
 
 ## 2026.06.13
 
