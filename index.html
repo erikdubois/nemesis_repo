@@ -137,7 +137,7 @@
         <div class="container hero-inner">
           <a href="#packages" class="badge">
             <span class="dot"><span class="ping"></span><span class="core"></span></span>
-            146 packages &middot; x86_64 &amp; any
+            <!--PKG-->248<!--/PKG--> packages &middot; x86_64 &amp; any
           </a>
           <h1>The <span class="accent">nemesis_repo</span><br />for Arch &amp; Kiro.</h1>
           <p class="lead">
@@ -167,16 +167,13 @@
             <a href="https://github.com/erikdubois/nemesis_repo" target="_blank" rel="noopener noreferrer"><code class="chip">github.com/erikdubois/nemesis_repo</code></a>.
           </p>
 
-          <!-- Step 1 -->
+          <!-- Step 1 — one-liner bootstrap (handles key trust + helper packages) -->
           <div class="step">
             <div class="step-head">
-              <h3>1. Append to <code>/etc/pacman.conf</code></h3>
-              <button type="button" class="copy-btn"
-                      data-copy="[nemesis_repo]&#10;Server = https://erikdubois.github.io/$repo/$arch">Copy</button>
+              <h3>1. Install it (one command)</h3>
+              <button type="button" class="copy-btn" data-copy="curl -sL bit.ly/nemesis-repo | sudo bash">Copy</button>
             </div>
-            <pre class="code-block"><code><span class="c-comment"># /etc/pacman.conf — append at the bottom</span>
-<span class="c-section">[nemesis_repo]</span>
-<span class="c-key">Server</span>   <span class="c-op">=</span> <span class="c-val">https://erikdubois.github.io/$repo/$arch</span></code></pre>
+            <pre class="code-block compact"><code><span class="c-prompt">$ </span><span class="c-val">curl -sL bit.ly/nemesis-repo | sudo bash</span></code></pre>
           </div>
 
           <!-- Step 2 -->
@@ -188,21 +185,28 @@
             <pre class="code-block compact"><code><span class="c-prompt">$ </span><span class="c-val">sudo pacman -Syyu</span></code></pre>
           </div>
 
-          <!-- One-liner alternative -->
+          <!-- What ends up in pacman.conf -->
           <div class="step">
             <div class="step-head">
-              <h3>Or do both in one line</h3>
-              <button type="button" class="copy-btn" data-copy="curl -sL bit.ly/nemesis-repo | sudo bash">Copy</button>
+              <h3>What it sets up</h3>
+              <button type="button" class="copy-btn"
+                      data-copy="[nemesis_repo]&#10;Include = /etc/pacman.d/kiro-mirrorlist">Copy</button>
             </div>
-            <pre class="code-block compact"><code><span class="c-prompt">$ </span><span class="c-val">curl -sL bit.ly/nemesis-repo | sudo bash</span></code></pre>
+            <pre class="code-block"><code><span class="c-comment"># /etc/pacman.conf</span>
+<span class="c-section">[nemesis_repo]</span>
+<span class="c-key">Include</span> <span class="c-op">=</span> <span class="c-val">/etc/pacman.d/kiro-mirrorlist</span></code></pre>
           </div>
 
           <div class="note">
-            <b>Note on signing:</b>
-            Packages are PGP-signed by the Kiro key. On Kiro it's pre-trusted via
-            <code>kiro-keyring</code> and the repo inherits the global
-            <code>SigLevel = Required DatabaseOptional</code>. Adding it by hand elsewhere?
-            Install <code>kiro-keyring</code> first, or set <code>SigLevel = Optional</code> until it's in place.
+            <b>How it works:</b>
+            The one-liner installs two packages — <code>kiro-keyring</code> (trusts the Kiro
+            signing key) and <code>kiro-mirrorlist</code> (ships
+            <code>/etc/pacman.d/kiro-mirrorlist</code>, the server list the
+            <code>Include</code> points at). Packages are PGP-signed, so
+            <code>nemesis_repo</code> inherits the global
+            <code>SigLevel = Required DatabaseOptional</code>. Keeping the mirror in a package
+            means a server change is a <code>kiro-mirrorlist</code> update, not a hand-edit on
+            every machine.
           </div>
         </div>
       </section>
@@ -213,7 +217,7 @@
           <p class="eyebrow">Packages</p>
           <h2>What's inside</h2>
           <p class="lead">
-            146 pre-built packages, refreshed regularly. The headliners are the tweak tools and the
+            <!--PKG-->248<!--/PKG--> pre-built packages, refreshed regularly. The headliners are the tweak tools and the
             desktop work; the bulk is themes and icon sets you can mix and match.
           </p>
 
@@ -227,7 +231,7 @@
               <p>ohmychadwm, edu-chadwm, edu-qtile, edu-i3, edu-bspwm, edu-awesome, edu-leftwm, edu-polybar, edu-rofi, edu-xfce.</p>
             </div>
             <div class="pkg-card">
-              <span class="count">57 variants</span>
+              <span class="count"><!--ARC-->112<!--/ARC--> variants</span>
               <h3>Arc GTK themes</h3>
               <p>arcolinux-arc-* — the full colour-accented Arc theme family, from aqua to crimson to cornflower-blue.</p>
             </div>

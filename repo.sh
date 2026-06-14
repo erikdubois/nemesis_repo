@@ -43,6 +43,18 @@ for sig in *.pkg.tar.zst.sig; do
     [[ -e "${sig%.sig}" ]] || rm -v "${sig}"
 done
 
+# Refresh the package counts on index.html from the freshly-built db so the
+# website can never drift from what the repo actually serves. Each db entry is
+# one directory ("name-ver/"); arc theme variants are the arcolinux-arc-* set.
+# Markers in index.html: <!--PKG-->N<!--/PKG--> and <!--ARC-->N<!--/ARC-->.
+pkg_count=$(tar tzf nemesis_repo.db | grep -c '/$' || true)
+arc_count=$(tar tzf nemesis_repo.db | grep -c '^arcolinux-arc-' || true)
+echo "updating index.html counts: ${pkg_count} packages, ${arc_count} arc variants"
+sed -i -E \
+    -e "s|<!--PKG-->[0-9]+<!--/PKG-->|<!--PKG-->${pkg_count}<!--/PKG-->|g" \
+    -e "s|<!--ARC-->[0-9]+<!--/ARC-->|<!--ARC-->${arc_count}<!--/ARC-->|g" \
+    "${SCRIPT_DIR}/index.html"
+
 cd ..
 echo "####################################"
 echo "Repo Updated!!"
