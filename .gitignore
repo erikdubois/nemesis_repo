@@ -1,2 +1,7 @@
 .codex/
 .claude/
+
+# X11 auth temp files (e.g. xauth_KBGBUP) — leaked here when a sign/sudo step
+# runs `mktemp xauth_XXXXXX` with the cwd inside the repo. They contain an
+# MIT-MAGIC-COOKIE credential and must never be committed.
+xauth_*
