@@ -11,15 +11,26 @@ rm nemesis_repo*
 # or older than the package, to avoid re-signing the whole repo on every run.
 # Fail loud: a signing error must stop the run, never publish a half-signed repo.
 echo "signing packages"
+# Sign from a throwaway cwd, and force loopback pinentry. Background: gpg-agent
+# launches the configured GUI pinentry (pinentry-qt), whose Qt X11 connection
+# drops an xauth_XXXXXX cookie file into the current dir — and the current dir
+# here is the tracked x86_64/ tree, so the cookie kept landing in the repo.
+# loopback makes gpg prompt on the tty instead of launching any GUI pinentry
+# (no X connection, no cookie); the temp cwd is a belt-and-suspenders net so any
+# stray temp file can't land in the tree even if loopback is ever removed. Sign
+# via an absolute path so the .sig still lands next to the package in x86_64/.
+sign_cwd="$(mktemp -d)"
 for pkg in *.pkg.tar.zst; do
     if [[ ! -f "${pkg}.sig" || "${pkg}" -nt "${pkg}.sig" ]]; then
         echo "  signing ${pkg}"
-        gpg --detach-sign -u 33B761B0EE5AD4FD --yes "${pkg}" || {
+        ( cd "${sign_cwd}" && gpg --pinentry-mode loopback --detach-sign \
+            -u 33B761B0EE5AD4FD --yes "${SCRIPT_DIR}/x86_64/${pkg}" ) || {
             echo "SIGNING FAILED for ${pkg} — aborting, repo not updated" >&2
             exit 1
         }
     fi
 done
+rmdir "${sign_cwd}" 2>/dev/null || true
 
 echo "repo-add"
 # Feed packages in true version order (oldest first) so the newest build of each
