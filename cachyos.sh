@@ -3,7 +3,7 @@
 # Configuration
 URL="https://mirror.cachyos.org/repo/x86_64/cachyos/"
 DEST="/home/erik/EDU/nemesis_repo/x86_64/"
-PACKAGES=("mangowm scx-manager")
+PACKAGES=("mangowm scx-manager scenefx0.5")
 
 # Function to extract version string (strip "${pkg}-" prefix and "-x86_64.pkg.tar.zst" / "-any.pkg.tar.zst" suffix)
 get_version() {
