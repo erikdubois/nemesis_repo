@@ -3,7 +3,7 @@
 # Configuration
 URL="https://mirror.cachyos.org/repo/x86_64/cachyos/"
 DEST="/home/erik/EDU/nemesis_repo/x86_64/"
-PACKAGES=("mangowm scx-manager scenefx0.5")
+PACKAGES=("mangowm" "scx-manager" "scenefx0.5")
 
 # Function to extract version string (strip "${pkg}-" prefix and "-x86_64.pkg.tar.zst" / "-any.pkg.tar.zst" suffix)
 get_version() {
@@ -32,7 +32,7 @@ for pkg in "${PACKAGES[@]}"; do
 
     if [[ "$remote_version" != "$local_version" ]]; then
         echo "Updating $pkg: ${local_version:-<missing>} → $remote_version"
-        curl -o "${DEST}${remote_file}" "$URL/$remote_file"
+        curl -fL --retry 2 -o "${DEST}${remote_file}" "${URL}${remote_file}"
         # Remove stale local copy if there was one and it's a different file
         if [[ -n "$local_file" && "$(basename "$local_file")" != "$remote_file" ]]; then
             rm -v "$local_file"

@@ -1,5 +1,35 @@
 # Changelog
 
+## 2026.08.25
+
+### What Changed
+- **Fixed `cachyos.sh` — it had silently stopped checking for new upstream
+  versions.** The three tracked packages were written as one quoted string, so
+  the loop ran once against a package literally named
+  `"mangowm scx-manager scenefx0.5"` and always printed *"No remote version
+  found"*. Nothing had been mirrored from cachyos since the extra packages were
+  added. With the fix, two pending updates were picked up immediately:
+  `mangowm 0.15.0-1 → 0.16.0-1` and `scx-manager 1.15.11-1 → 1.15.12-1`.
+
+### Technical Details
+- `cachyos.sh`: `PACKAGES=("mangowm scx-manager scenefx0.5")` →
+  `PACKAGES=("mangowm" "scx-manager" "scenefx0.5")`. A bash array literal splits
+  on the quoting, not on whitespace inside a quoted element — one pair of quotes
+  around the whole list yields a single element.
+- `cachyos.sh`: download hardened to `curl -fL --retry 2`. Without `-f`, a 404
+  or mirror hiccup writes the HTML error body to disk under the package
+  filename, and that bogus file then gets signed and published by `repo.sh`.
+  Also dropped the double slash in the URL (`$URL` already ends in `/`).
+- No `.sig` fetch or `repo-add` was added here on purpose: `repo.sh` (which
+  `up.sh` runs right after `cachyos.sh`) already signs any package missing a
+  `.sig` with the Kiro key and rebuilds the db, and `repo-add -R` prunes the
+  superseded `0.15.0` / `1.15.11` files plus their orphaned `.sig`s.
+
+### Files Modified
+- cachyos.sh
+- x86_64/mangowm-0.16.0-1-x86_64.pkg.tar.zst (fetched)
+- x86_64/scx-manager-1.15.12-1-x86_64.pkg.tar.zst (fetched)
+
 ## 2026.07.05
 
 ### What Changed
