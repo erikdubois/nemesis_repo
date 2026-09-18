@@ -20,6 +20,7 @@
   (ohmychadwm, kiro-chadwm, kiro-dusk, kiro-qtile) and the ISO ships the
   package, so the regression covered all X11 editions at once. The Wayland
   KIROTUX editions keep `volctl` commented out and were unaffected.
+
 ### Technical Details
 - Removed the package and its detached signature, then re-ran `repo.sh` rather
   than calling `repo-remove`. `repo.sh` deletes `nemesis_repo*` and rebuilds the
@@ -63,6 +64,7 @@
   `org.x.StatusNotifierWatcher`, never the `org.kde.` name volctl looks up.
 - Package count stays 484 and `index.html` was regenerated unchanged: one package
   file replaced another, `any` in place of `x86_64`.
+
 ### Files Modified
 - x86_64/kiro-waylands-26.07-01-any.pkg.tar.zst (deleted)
 - x86_64/kiro-waylands-26.07-01-any.pkg.tar.zst.sig (deleted)
