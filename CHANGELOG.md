@@ -10,6 +10,16 @@
   both unbuildable and unreferenced, so it could never be refreshed — only
   served stale. Package count 485 -> 484.
 
+- **Rolled `volctl` back from `1.0.0-2` to `0.9.5-1`.** The 1.0.0 build added
+  earlier the same day is upstream's Rust/GTK4 rewrite, which is SNI-only: it
+  dropped the GtkStatusIcon/XEmbed tray the Python 0.9.x used and now requires
+  an `org.kde.StatusNotifierWatcher` owner on the session bus. chadwm, dusk and
+  qtile implement only the legacy XEmbed systray, so on every X11 edition volctl
+  failed to register, showed a GTK error dialog and exited — a silent loss of
+  the volume tray for anyone who updated. Four autostarts call `run volctl`
+  (ohmychadwm, kiro-chadwm, kiro-dusk, kiro-qtile) and the ISO ships the
+  package, so the regression covered all X11 editions at once. The Wayland
+  KIROTUX editions keep `volctl` commented out and were unaffected.
 ### Technical Details
 - Removed the package and its detached signature, then re-ran `repo.sh` rather
   than calling `repo-remove`. `repo.sh` deletes `nemesis_repo*` and rebuilds the
@@ -31,12 +41,38 @@
   the website badge and the "What's inside" paragraph moved 485 -> 484 on their
   own.
 
+- No rebuild was needed: the previously published `volctl-0.9.5-1-any.pkg.tar.zst`
+  was still in the local pacman cache together with its detached signature, and
+  `gpg --verify` confirmed it as a good signature from the Kiro signing subkey
+  `33B761B0EE5AD4FD` — the same subkey `repo.sh` signs with. The signed pair was
+  copied straight back into `x86_64/`.
+- The restored `.sig` was `touch`ed so it is strictly newer than its package.
+  `repo.sh` re-signs whenever `pkg -nt pkg.sig`, and a re-sign would have blocked
+  on an interactive gpg passphrase prompt mid-run.
+- Reverted via `repo.sh` rather than `repo-add`/`repo-remove`, for the reason
+  recorded under the `kiro-waylands` removal above: `repo.sh` rebuilds the db
+  from the full package glob, so manual db surgery is undone on the next run.
+- Deliberately a plain revert, not an `epoch=1` forced downgrade. `1.0.0-2` beats
+  `0.9.5-1` in pacman's version comparison, so this protects everyone who had not
+  yet updated — the bad build was only live for roughly two hours — while anyone
+  who did update stays on 1.0.0-2 until they run `pacman -Syuu`. An epoch would
+  have pulled those users back automatically but is permanent metadata that every
+  future 1.0.x adoption would have to carry forward.
+- `xapp-sn-watcher` was ruled out as a no-new-dependency shim: it is already
+  present via `xapp`, but testing it on the bus showed it claims only
+  `org.x.StatusNotifierWatcher`, never the `org.kde.` name volctl looks up.
+- Package count stays 484 and `index.html` was regenerated unchanged: one package
+  file replaced another, `any` in place of `x86_64`.
 ### Files Modified
 - x86_64/kiro-waylands-26.07-01-any.pkg.tar.zst (deleted)
 - x86_64/kiro-waylands-26.07-01-any.pkg.tar.zst.sig (deleted)
 - x86_64/nemesis_repo.db (rebuilt)
 - x86_64/nemesis_repo.files (rebuilt)
 - index.html (package counts)
+- x86_64/volctl-1.0.0-2-x86_64.pkg.tar.zst (deleted)
+- x86_64/volctl-1.0.0-2-x86_64.pkg.tar.zst.sig (deleted)
+- x86_64/volctl-0.9.5-1-any.pkg.tar.zst (restored)
+- x86_64/volctl-0.9.5-1-any.pkg.tar.zst.sig (restored)
 
 ## 2026.08.25
 
