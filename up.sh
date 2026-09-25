@@ -7,6 +7,15 @@ set -euo pipefail
 #
 #   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
 #
+#   Purpose:
+#   - Standard daily up-sync for any block in the ecosystem.
+#   - Ensures git remote is SSH (runs setup.sh if not), pulls latest,
+#     cleans __pycache__, optionally runs chaotic.sh / repo.sh /
+#     build/sync-videos.py, then stages, commits, and pushes the working tree.
+#
+#   Why: one command to keep a block in sync with its remote, with
+#   safe defaults (auto-rebase on rejected push, never force-push).
+#
 #####################################################################
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
@@ -119,11 +128,21 @@ git_commit_and_push() {
 
     log_section "Git add / commit / push"
     git -C "${SCRIPT_DIR}" add --all .
+    # GUARD: keybindings.html/pdf are generated on demand by the kiro-keybindings app —
+    # they must NEVER be committed. Abort loudly if any are tracked/staged.
+    local kb_artifacts
+    kb_artifacts="$(git -C "${SCRIPT_DIR}" ls-files -- '*keybindings.html' '*keybindings.pdf')"
+    if [[ -n "${kb_artifacts}" ]]; then
+        log_error "BLOCKED: keybindings.html/pdf must never be committed — kiro-keybindings generates them on demand:"
+        echo "${kb_artifacts}"
+        echo "Fix: git -C \"${SCRIPT_DIR}\" rm --cached <file> ; add to .gitignore ; re-run up.sh"
+        exit 1
+    fi
 
     if [[ -z "$(git -C "${SCRIPT_DIR}" status --porcelain)" ]]; then
         log_info "Nothing to commit — working tree clean"
     else
-        git -C "${SCRIPT_DIR}" commit -m "update" || log_error "Git commit failed"
+        git -C "${SCRIPT_DIR}" commit -m "${COMMIT_MSG:-update}" || log_error "Git commit failed"
     fi
 
     branch="$(git -C "${SCRIPT_DIR}" rev-parse --abbrev-ref HEAD)"
@@ -148,14 +167,23 @@ main() {
         bash "${SCRIPT_DIR}/chaotic.sh"
     fi
 
-    if [[ -f "${SCRIPT_DIR}/cachyos.sh" ]]; then
-        log_section "Running cachyos.sh"
-        bash "${SCRIPT_DIR}/cachyos.sh"
-    fi
-
     if [[ -f "${SCRIPT_DIR}/repo.sh" ]]; then
         log_section "Running repo.sh"
         bash "${SCRIPT_DIR}/repo.sh"
+    fi
+
+    # Optional per-repo hook: if a block ships build/sync-videos.py (currently
+    # only kiro-assistant), regenerate its generated content before committing.
+    # Inert in every other repo. Non-fatal so a missing creds/deps never blocks
+    # the push.
+    if [[ -f "${SCRIPT_DIR}/build/sync-videos.py" ]]; then
+        log_section "Running build/sync-videos.py"
+        python "${SCRIPT_DIR}/build/sync-videos.py" || log_warn "Video sync skipped (missing creds or deps) — keeping current files"
+    fi
+
+    if [[ -f "${SCRIPT_DIR}/cachyos.sh" ]]; then
+        log_section "Running cachyos.sh"
+        bash "${SCRIPT_DIR}/cachyos.sh"
     fi
 
     git_commit_and_push

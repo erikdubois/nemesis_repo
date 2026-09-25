@@ -7,6 +7,19 @@ set -euo pipefail
 #
 #   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
 #
+#   Purpose:
+#   - One-time per-clone git configuration for any block in the
+#     ecosystem. Sets local user.name / user.email / remote based on
+#     where the clone lives:
+#       ~/EDU/* or ~/DATA/*  -> erikdubois identity, github.com origin
+#       ~/KIRO/*             -> kirodubes identity, SSH alias origin
+#     Also enforces global git defaults (pull.rebase=false, nano as
+#     system editor, push.default=simple).
+#
+#   Why: every block needs the right identity attached to its remote,
+#   and the correct one is implied by the parent directory rather
+#   than configured by hand each clone.
+#
 ############################################################
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
