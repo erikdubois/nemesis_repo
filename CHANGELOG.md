@@ -6,10 +6,11 @@
 
 **What Changed.** The logout app's package and repo names carried a GTK version suffix that says nothing to users. Everything it installs was already named `archlinux-logout`, so only the package name and the references to it change.
 
-**Technical Details.** The landing page lists the app under its new name. The old `archlinux-logout-gtk4` package file stays in `x86_64/` so the frozen KIROTUX ISOs that still list it keep building.
+**Technical Details.** The landing page lists the app under its new name. The old `archlinux-logout-gtk4-26.09-04` package file and its signature were removed from `x86_64/` once the new package was published. The frozen KIROTUX ISOs that still list `archlinux-logout-gtk4` now resolve that name through the new package's `provides=(archlinux-logout-gtk4)`.
 
 **Files Modified.**
 - `index.html`
+- `x86_64/archlinux-logout-gtk4-26.09-04-any.pkg.tar.zst(.sig)` (removed)
 
 ## 2026.09.18
 
