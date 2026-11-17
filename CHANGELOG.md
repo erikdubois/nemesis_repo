@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026.11.17
+
+### sway-scroll moved to chaotic-aur
+
+**What Changed.** sway-scroll (the compositor of the Kiro scroll edition) is now built by chaotic-aur, so it leaves nemesis_repo. Installed systems keep working: chaotic-aur ships the same version (1.12.21-1) and future updates come from there.
+
+**Technical Details.** The package and its signature are removed from `x86_64/`; the next `up.sh` run regenerates the database without it.
+
+**Files Modified.** `x86_64/sway-scroll-1.12.21-1-x86_64.pkg.tar.zst` (+ `.sig`, removed)
+
 ## 2026.10.01
 
 ### archlinux-logout-gtk4 is now archlinux-logout
