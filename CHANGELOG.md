@@ -2,6 +2,14 @@
 
 ## 2026.11.18
 
+### xautolock moved to chaotic-aur
+
+**What Changed.** chaotic-aur accepted our request (#4623) and now builds xautolock, so it leaves nemesis_repo. chaotic-aur ships the same version (2.2-8), so installed systems keep working and future updates come from there.
+
+**Technical Details.** Package and signature removed from `x86_64/`; `repo.sh` regenerated the database (483 → 482 packages) and the counts on `index.html`.
+
+**Files Modified.** `x86_64/` (package + `.sig` removed, `nemesis_repo.db`, `nemesis_repo.files`), `index.html`
+
 ### pacman-hook-kernel-install moved to chaotic-aur
 
 **What Changed.** chaotic-aur accepted our request (#4626) and now builds pacman-hook-kernel-install, so it leaves nemesis_repo. chaotic-aur ships the same version (0.16.0-1), so installed systems keep working and future updates come from there.
