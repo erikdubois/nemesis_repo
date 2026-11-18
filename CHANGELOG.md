@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026.11.18
+
+### Seven packages moved to chaotic-aur
+
+**What Changed.** chaotic-aur accepted our requests and now builds caelestia-cli, cpuid, sysz, ttf-material-design-iconic-font, ttf-rubik-vf, volctl and wvkbd, so they leave nemesis_repo. Installed systems keep working: chaotic-aur ships the same versions, newer for wvkbd (0.21-1) and volctl (1.0.1-1), and future updates come from there.
+
+**Technical Details.** Packages and signatures removed from `x86_64/`; `repo.sh` regenerated the database (493 → 486 packages) and the counts on `index.html`.
+
+**Files Modified.** `x86_64/` (7 packages + `.sig` removed, `nemesis_repo.db`, `nemesis_repo.files`), `index.html`
+
 ## 2026.11.17
 
 ### sway-scroll moved to chaotic-aur, wlroots0.18 dropped
