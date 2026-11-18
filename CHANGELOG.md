@@ -2,6 +2,14 @@
 
 ## 2026.11.18
 
+### ckb-next-git and dracula-colors-xfce4-terminal moved to chaotic-aur
+
+**What Changed.** chaotic-aur accepted our requests (#4597, #4625) and now builds ckb-next-git and dracula-colors-xfce4-terminal, so they leave nemesis_repo. chaotic-aur ships the same versions (1:0.6.2.r164.ge22eaf2f-1 and 1.2-2), so installed systems keep working and future updates come from there.
+
+**Technical Details.** Packages and signatures removed from `x86_64/`; `repo.sh` regenerated the database (486 → 484 packages) and the counts on `index.html`.
+
+**Files Modified.** `x86_64/` (2 packages + `.sig` removed, `nemesis_repo.db`, `nemesis_repo.files`), `index.html`
+
 ### Seven packages moved to chaotic-aur
 
 **What Changed.** chaotic-aur accepted our requests and now builds caelestia-cli, cpuid, sysz, ttf-material-design-iconic-font, ttf-rubik-vf, volctl and wvkbd, so they leave nemesis_repo. Installed systems keep working: chaotic-aur ships the same versions, newer for wvkbd (0.21-1) and volctl (1.0.1-1), and future updates come from there.
