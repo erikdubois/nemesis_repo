@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026.11.20
+
+### python-pywal16 moved to chaotic-aur
+
+**What Changed.** chaotic-aur builds python-pywal16, so it leaves nemesis_repo. chaotic-aur ships the same version (1:3.8.15-1), so installed systems keep working and future updates come from there. Checked on the v26.11.20 Kiro ISO first: with both repos enabled, nemesis_repo won because it is listed first, so chaotic-aur's copy never reached users.
+
+**Technical Details.** Package and signature removed from `x86_64/`; `repo.sh` regenerated the database (482 → 481 packages) and the counts on `index.html`. chaotic-aur's build lacks the Kiro `replaces=('python-pywal')` delta, so a system still on the old python-pywal is no longer swapped to pywal16 on -Syu.
+
+**Files Modified.** `x86_64/` (package + `.sig` removed, `nemesis_repo.db`, `nemesis_repo.files`), `index.html`
+
 ## 2026.11.18
 
 ### xautolock moved to chaotic-aur
