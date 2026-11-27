@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026.11.27
+
+### blueberry and gnome-bluetooth moved to chaotic-aur
+
+**What Changed.** chaotic-aur accepted our request (#4638) and now builds blueberry and its legacy gnome-bluetooth 3.34 dependency, so both leave nemesis_repo. chaotic-aur ships the same versions (1.4.8-2 and 3.34.5+r16+g61cfff1c-3), so installed systems keep working and future updates come from there. The Utilities card on `index.html` no longer lists blueberry or ckb-next (ckb-next-git left for chaotic-aur on 2026-11-18).
+
+**Technical Details.** Packages and signatures removed from `x86_64/`; `repo.sh` regenerated the database (482 → 480 packages) and the counts on `index.html`. ATT and the kiro-iso package lists ask for blueberry by name, and both ISOs enable chaotic-aur, so they now get it from there.
+
+**Files Modified.** `x86_64/` (2 packages + `.sig` removed, `nemesis_repo.db`, `nemesis_repo.files`), `index.html`
+
 ## 2026.11.20
 
 ### python-pywal16 moved to chaotic-aur
